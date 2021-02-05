@@ -27,7 +27,7 @@ const WhyCard = ({next, back}) => {
         setSurvey({...survey, ...{why: event.target.value}});
     };
 
-    const goal = survey.goal ?? "my goal";
+    //const goal = survey.goal ?? "my goal";
 
     return (
         <React.Fragment>
@@ -39,7 +39,7 @@ const WhyCard = ({next, back}) => {
                 duration={500} 
                 delay={0} 
                 delayOut={0}>
-                <Card style={{width: '40rem'}}>
+                <Card className="SlidingCard">
                     <Card.Body>
                         <Card.Text>
                         Why is achieving this goal important to you?

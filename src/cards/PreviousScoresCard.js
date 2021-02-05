@@ -47,7 +47,7 @@ const PreviousScoresCard = ({next, back}) => {
                 duration={500} 
                 delay={0} 
                 delayOut={0}>
-                <Card style={{width: '40rem'}}>
+                <Card className="SlidingCard">
                     <Card.Body>
                         <Card.Text>
                         What were your previous scores in {survey.targetLanguage ?? 'your target language'}?

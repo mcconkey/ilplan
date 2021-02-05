@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Card, Button, Form } from 'react-bootstrap';
 import { Fade } from 'react-reveal';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -38,7 +38,7 @@ const ChooseLanguageCard = ({back, next}) => {
                 duration={500}
                 delay={0}
             >
-                <Card style={{ width: '40rem' }}>
+                <Card className="SlidingCard" >
                     <Card.Body>
                         <Card.Text>
                             What's your target language?

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, Button, Form, FormGroup, Row, Col, Badge } from 'react-bootstrap';
 import { Fade } from 'react-reveal';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -84,14 +84,14 @@ const WhoCard = ({next, back}) => {
                 duration={500} 
                 delay={0} 
                 delayOut={0}>
-                <Card style={{width: '40rem'}}>
+                <Card className="SlidingCard">
                     <Card.Body>
                         <Card.Text>
                         Who can you rely on to help mentor you?  To help you stick to your goals?
                             <br />
                             <Mentors />
-                            <FormGroup as={Row} style={{ width: '80wv', marginTop: '.5em'}} >
-                                <Col xs={6} style={{textAlign: 'left'}}>
+                            <FormGroup as={Row} style={{ width: '80wv', marginTop: '.5em', marginBottom: '.5em',}} >
+                                <Col xs={12} sm={7} style={{marginTop: '.5em', paddingRight: '5px', paddingLeft:'5px'}} >
                                     <Form.Control 
                                         type="text"
                                         placeholder="Who will help you?"
@@ -102,19 +102,19 @@ const WhoCard = ({next, back}) => {
                                         }}
                                     />
                                 </Col>                
-                                <Col xs={4}>
+                                <Col xs={12} sm={5} style={{marginTop: '.5em', paddingRight: '5px', paddingLeft:'5px'}}>
                                 <Form.Control 
                                     as="select"
                                     onChange={(event) => setCurrentMentorType(event.target.value)}
                                     value={currentMentorType ?? "Mentor"}
-                                    custom                    
+                                                        
                                 >
                                     <option>Mentor</option>
                                     <option>Task-Master</option>
                                     <option>Language Expert</option>
                                 </Form.Control>
                                 </Col>
-                                <Col xs="auto">
+                                <Col xs={12} style={{marginTop: '.5em', paddingRight: '5px', paddingLeft:'5px'}}>
                                     <Button
                                         onClick={addMentor} 
                                         variant='primary' 

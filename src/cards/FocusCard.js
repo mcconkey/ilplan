@@ -80,7 +80,7 @@ const FocusCard = ({next, back}) => {
                 duration={500} 
                 delay={0} 
                 delayOut={0}>
-                <Card style={{width: '40rem'}}>
+                <Card className="SlidingCard">
                     <Card.Body>
                         <Card.Text>
                         What aspects of { survey.targetLanguage ?? 'your target language' } do you

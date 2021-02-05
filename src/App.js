@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Card, Button, ProgressBar } from 'react-bootstrap';
 import { Fade } from 'react-reveal';
 
@@ -27,14 +27,10 @@ import ILTPCard from './cards/ILTPCard';
 function App() {
 
     const [isVisible, setVisibilityState] = useRecoilState(visibilityState);
-    const [progress, setProgress] = useRecoilState(progressState);
+    const progress = useRecoilValue(progressState);
     const survey = useRecoilValue(surveyState);
 
     let vis = { ...isVisible };
-
-    useEffect(() => {
-        vis = { ...isVisible };
-    });
 
     const hideCard = (name = "") => {
         console.log("hiding..." + name);
@@ -72,8 +68,8 @@ function App() {
             </div>
             <div className="Content">
                 <div className="Cards">
-                    <Fade left collapse opposite when={isVisible.intro} duration={500} delay={200} onReveal={() => console.log("blahblahb")}>
-                        <Card style={{ width: '40rem' }} >
+                    <Fade left collapse opposite when={isVisible.intro} duration={500} delay={200} >
+                        <Card className="SlidingCard">
                             <Card.Body>
                                 <Card.Title>Welcome!</Card.Title>
                                 <Card.Text>
@@ -126,7 +122,8 @@ function App() {
                     />
                     <CompleteCard
                         back={() => { hideThenShow("complete", "who"); }}
-                        next={() => { hideThenShow("complete", "ILTP")}}
+                        next={() => { hideThenShow("complete", "ILTP"); }}
+                        start={() => {hideThenShow("complete", "intro")}}
                     />
                     <ILTPCard
                         back={() => { hideThenShow("ILTP", "complete"); }}
@@ -140,8 +137,10 @@ function App() {
             <div class="BottomRightMenu">
                 <AiOutlineFileText cursor="pointer" size='2em' onClick={() => showCard("menuOverlay")} />
             </div>
-            <div class="GlassOverlay" style={{ width: isVisible.menuOverlay ? '30vw' : '0px' }}>
-                <div class="GlassOverlayBottom">
+            {/* <div className={isVisible.menuOverlay ? 'visible sideMenu' : 'sideMenu'}> */}
+            <div className={isVisible.menuOverlay ? 'sideMenuVisible sideMenu' : 'sideMenu'} onClick={() => hideCard("menuOverlay")} />
+            <div className={isVisible.menuOverlay ? 'glassOverlayVisible GlassOverlay' : 'GlassOverlay'} >
+                <div className="GlassOverlayBottom" >
                     <AiFillCloseCircle cursor="pointer" size='1.5em' onClick={() => hideCard("menuOverlay")} />
                 </div>
 
@@ -150,6 +149,8 @@ function App() {
                 </div>
 
             </div>
+            
+
 
         </div>
         </div>

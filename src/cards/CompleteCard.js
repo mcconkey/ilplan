@@ -1,16 +1,29 @@
-import React, {useState, createRef} from 'react';
-import { Card, Button, Badge, FormControl, CardGroup, CardDeck, CardColumns} from 'react-bootstrap';
+import React from 'react';
+import { Card, Button } from 'react-bootstrap';
 import { Fade } from 'react-reveal';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { AiFillPlusCircle, AiFillCheckCircle} from 'react-icons/ai';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import visibilityState from '../atoms/visibilityState';
 import surveyState from '../atoms/surveyState';
 import progressState from '../atoms/progressState';
 
-const CompleteCard = ({next, back}) => {
+const CompleteCard = ({next, back, start}) => {
 
     const visible = useRecoilValue(visibilityState).complete ? true : false;
+
+    const setSurvey = useSetRecoilState(surveyState);
+    const setProgress = useSetRecoilState(progressState);
+
+    const startOver = () => {
+        // set the progress state to nothing
+        setSurvey({});
+
+        // set progress to zero
+        setProgress(0);
+
+        // return to the intro screen
+        start();
+    }
 
     return (
         <React.Fragment>
@@ -23,18 +36,19 @@ const CompleteCard = ({next, back}) => {
                 delay={0} 
                 delayOut={0}
                 >
-                <div style={{display: 'grid', width: '60vw', gridTemplateColumns: '1fr 1fr 1fr'}}>
-                    <Card style={{background: 'white', flex: '1', marginRight: '1rem'}}>
+                <div style={{display: 'grid', width: '80vw', gridTemplateColumns:  'repeat(auto-fit, minmax(300px, 1fr))'}}>
+                    <Card className="SmallCard">
                     <Card.Body>
                         Start over
                         <br />
                             <Button
                                 style={{marginTop: '1rem'}}
                                 variant="primary"
+                                onClick={startOver}
                             >Start Over</Button>
                         </Card.Body>
                     </Card>
-                    <Card style={{background: 'white', flex: '1', marginRight: '1rem', marginLeft: '1rem'}}>
+                    <Card className="SmallCard">
                         <Card.Body>
                         Go back, maybe change some answers
                         <br />
@@ -45,7 +59,7 @@ const CompleteCard = ({next, back}) => {
                             >Back</Button>
                         </Card.Body>
                     </Card>
-                    <Card style={{background: 'white', flex: '1', marginLeft: '1rem', minHeight: '30vh'}}>
+                    <Card className="SmallCard">
                         <Card.Body>
                             Get learning plan based on your answers
                             <br />

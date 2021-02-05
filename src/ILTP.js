@@ -1,146 +1,114 @@
-import reactReveal from "react-reveal";
-import React, { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
 
-import surveyState from './atoms/surveyState';
-
-
-const Language = ({language = "Not Specified"}) => {
-
-    return (
-        <React.Fragment>
-            Target Language: {language} <br />
-        </React.Fragment>
-    );
-};
-
-const Scores = ({listening = "N/A", reading = "N/A"}) => {
-    
-
-    return (
-        <React.Fragment>
-            Reading: {reading} <br />
-            Listening: {listening} <br />
-        </React.Fragment>
-    );
-
-};
+/* 
+* Helper function(s) which parse through a survey object and
+* returns a string -- the formatted ILTP
+*/
 
 
-const Goal = ({goal}) => {
+const getILTP = (survey = {}) => {
 
-    return (
-        <React.Fragment>
-            <div>Your goal: {goal}</div>
-        </React.Fragment>
-    );
+    const language = (language = "Not Specified") => {
 
-};
-
-const Why = ({why}) => {
-    return (
-        <React.Fragment>
-            <div>Your reason for wanting to achieve your goal: {why}</div>
-        </React.Fragment>
-    );
-};
-const Foci = ({foci}) => {
-    console.log(foci);
-    if(foci && foci.length){
         return (
-            <React.Fragment>
-                <div>
-                    You identified the following areas which you wanted to focus on 
-                    in order to achieve your goal. 
-                    {foci && foci.map((item, index) => { 
-                        return(
-                            <div key={"foci_"+index}>{item}</div>
-                        );
-                    })}
-                </div>
-            </React.Fragment>
+`TARGET LANGUAGE: ${language}
+`
         );
-    }else{
-        return <></>;
-    }
+    };
 
-};
+    const scores = ({listening = "N/A", reading = "N/A"}) => {
+        
 
-const Activities = ({activities}) => {
-    console.log(activities);
-    if(activities && Object.keys(activities).length){
         return (
-            <React.Fragment>
-                <div>
-                    You identified the following activities:
-                    {activities &&  Object.entries(activities).map((item, index) => {
-                        console.log(item);
-                        return (<div>{item[0]} which you will do {item[1]}</div>);
-                        
-                    })}
-
-                </div>
-            </React.Fragment>
+`READING: ${reading} 
+LISTENING: ${listening} 
+`
         );
-    }else{
+
+    };
+
+    const goal = (goal) => {
+
+        return (
+`YOUR GOAL: ${goal}
+`
+        );
+
+    };
+
+    const why = (why) => {
+        if(why){
         return(
-            <React.Fragment>
-                <div>You did not name any activities. Achieving your goal will take work! What will you
-                    do to achieve it? 
-                </div>
-            </React.Fragment>
-
+`WHY THIS GOAL IS IMPORTANT: ${why}
+`
         );
-    }
-};
+        }else{
+            return "";
+        }
+            
+    };
+    const foci = (foci) => {
+        let retString = "";
 
-const Mentors = ({mentors}) => {
-    if(mentors && mentors.length){
-        return (
-            <React.Fragment>
-                <div>
-                    You identified the following mentors:
-                    {mentors && mentors.map((item, index) => { 
-                        return(
-                            <div key={"mentors_"+index}>{item.name}</div>
-                        );
-                    })}
+        if(foci && foci.length){
 
-                </div>
-            </React.Fragment>
-        );
-    }else{
-        return(
-            <React.Fragment>
-                <div>You did not identify any mentors.  Consider adding one or more mentors in order to help you
-                    stay on track!
-                </div>
-            </React.Fragment>
+            retString = "LANGUAGE AREA(S) OF FOCUS:";
+            foci.map((item) => { 
+                retString = retString + '\n\t' + item;
+                return true;
+            });
 
-        );
-    }
+        }
+        return retString;
+    };
 
-};
+    const activities = (activities) => {
+
+        let retString = ""; 
+
+        if(activities && Object.keys(activities).length){
+                       
+            retString = "LANGUAGE ACTIVITIES AND FREQUENCY:"
+                Object.entries(activities).map((item) => {
+                    retString = `${retString} ${'\n\t'} ${item[0]} (${item[1]})`;
+                    return true;
+                });
+
+              
+        }
+
+        return retString;
+    };
+
+    const mentors = (mentors) => {
+        
+        let retString = "";
+
+        if(mentors && mentors.length){
+            retString = "MENTOR(S):";
+            mentors.map((item) => { 
+                retString = `${retString} \n\t ${item.name} (${item.type})`;
+                return true;
+            })
+        }
+
+        return retString;
+    };
 
 
+    const ILTPText = 
+`${language(survey.targetLanguage)}
+${scores({reading: survey.readingScore, listening: survey.listeningScore})}
+${goal(survey.goal)}
+${why(survey.why)}
+${foci(survey.foci)}
 
-function ILTP() {
+${activities(survey.activitiesFrequencies)}
 
-    const survey = useRecoilValue(surveyState);
+${mentors(survey.mentors)}
+`;
 
-    return (
-        <React.Fragment>
-            <div style={{fontSize: '1rem', textAlign: 'left'}}>
-                <Language language={survey.targetLanguage} />
-                <Scores reading={survey.readingScore} listening={survey.listeningScore} />
-                <Goal goal={survey.goal} />
-                <Why why={survey.why} />
-                <Foci foci={survey.loci} />
-                <Activities activities={survey.activitiesFrequencies} />
-                <Mentors mentors={survey.mentors} />
-            </div>
-        </React.Fragment>
-    );
+    return ILTPText;
+
 }
 
-export default ILTP;
+export default getILTP;

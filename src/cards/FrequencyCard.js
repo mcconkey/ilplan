@@ -20,36 +20,32 @@ const FrequencyCard = ({next, back}) => {
 
 
     let activities = Array.from(survey.activities ?? []);
+        
     
+    const numberOfActivities = survey.activities?.length ?? 1;
+    const numberOfFrequencies = Object.keys(activitiesFrequencies)?.length ?? 0;
+    
+
 
     useEffect(() => {
-            // ratio of activities with frequency selected to total number of activities
-            let ratio = (Object.keys(activitiesFrequencies)?.length ?? 0) / (survey.activities?.length ?? 1);
-    
-            // console.log("progressAdded: " + progressAdded);
-            // console.log("progress: " + progress);
-            // console.log("numerator:" + Object.keys(activitiesFrequencies)?.length);
-            // console.log("denom: " + survey.activities?.length );
-    
-            // console.log("ratio: " + ratio);
-    
-            // get the amount of progress 
-            // take progress value of the component multiply by ratio
-            let progressAmount = Math.floor(ratio * progressValue);
-            console.log("progressAmount: " + progressAmount);
-    
-            // add the progress to the state atom, subtract the amount previously 
-            // added (tracked in local state).
-            // Fun Fact:  this has to be done in one operation of setProgress
-            // 
-            setProgress(progress + progressAmount - progressAdded);
 
-    
-    
-            // update local state to reflect the amount of progress give
-            setProgressAdded(progressAmount);
-        
-    }, [survey]);
+    // ratio of activities with frequency selected to total number of activities
+    let ratio = ( numberOfFrequencies / numberOfActivities  );   
+
+    // get the amount of progress 
+    // take progress value of the component multiply by ratio
+    let progressAmount = Math.floor(ratio * progressValue);
+
+
+    // add the progress to the state atom, subtract the amount previously 
+    // added (tracked in local state).
+    // Fun Fact:  this has to be done in one operation of setProgress
+    setProgress(progress + progressAmount - progressAdded);
+
+    // update local state to reflect the amount of progress give
+    setProgressAdded(progressAmount);
+
+    }, [survey, progress]); //  eslint-disable-line react-hooks/exhaustive-deps
 
 
     const selectFrequency = (event, activity) => {
@@ -108,7 +104,7 @@ const FrequencyCard = ({next, back}) => {
                 duration={500} 
                 delay={0} 
                 delayOut={0}>
-                <Card style={{width: '40rem'}}>
+                <Card className="SlidingCard">
                     <Card.Body>
                         <Card.Text>
                         How often are you going to do those activities? <br />

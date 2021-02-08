@@ -3,8 +3,6 @@ import React from 'react';
 import { Card, Button, ProgressBar } from 'react-bootstrap';
 import { Fade } from 'react-reveal';
 
-import { AiOutlineFileText, AiFillCloseCircle } from 'react-icons/ai';
-
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import ChooseLanguageCard from './cards/ChooseLanguageCard';
@@ -20,15 +18,14 @@ import WhoCard from './cards/WhoCard';
 
 import visibilityState from './atoms/visibilityState';
 import progressState from './atoms/progressState';
-import surveyState from './atoms/surveyState';
 import CompleteCard from './cards/CompleteCard';
 import ILTPCard from './cards/ILTPCard';
+import SideMenu from './SideMenu';
 
 function App() {
 
     const [isVisible, setVisibilityState] = useRecoilState(visibilityState);
     const progress = useRecoilValue(progressState);
-    const survey = useRecoilValue(surveyState);
 
     let vis = { ...isVisible };
 
@@ -75,7 +72,9 @@ function App() {
                                 <Card.Text>
                                     This app is designed to make it easier for linguists to develop an
                                     Individualized Language Training Plan.  This program will ask you a series of
-                                    questions which will help you focus on achieving your Language learning goals.
+                                    questions which will help you focus on achieving your Language learning goals. If 
+                                    you would like to skip the guided process and manually create an ILTP you can use this <a href="af623a_iltp_template.pdf">
+                                        623A template</a>.
                              </Card.Text>
                                 <Button
                                     variant="light"
@@ -132,27 +131,10 @@ function App() {
                 </div>
             </div>
             <div class="Footer">
-                <p>ILTP-Helper Copyright 2020</p>
+                <p>ILTP-Helper Copyright 2020-2021</p>
             </div>
-            <div class="BottomRightMenu">
-                <AiOutlineFileText cursor="pointer" size='2em' onClick={() => showCard("menuOverlay")} />
-            </div>
-            {/* <div className={isVisible.menuOverlay ? 'visible sideMenu' : 'sideMenu'}> */}
-            <div className={isVisible.menuOverlay ? 'sideMenuVisible sideMenu' : 'sideMenu'} onClick={() => hideCard("menuOverlay")} />
-            <div className={isVisible.menuOverlay ? 'glassOverlayVisible GlassOverlay' : 'GlassOverlay'} >
-                <div className="GlassOverlayBottom" >
-                    <AiFillCloseCircle cursor="pointer" size='1.5em' onClick={() => hideCard("menuOverlay")} />
-                </div>
+            <SideMenu showCard={showCard} hideCard={hideCard} isVisible={isVisible} />
 
-                <div class="OverlayContent">Learner Survey <div style={{ textAlign: "left", padding: '2em' }}>
-                    <pre style={{ fontSize: '.5em', color: 'white' }}>{JSON.stringify(survey, null, 3)}</pre>
-                </div>
-
-            </div>
-            
-
-
-        </div>
         </div>
     );
 }

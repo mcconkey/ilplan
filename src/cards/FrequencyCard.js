@@ -83,6 +83,7 @@ const FrequencyCard = ({next, back}) => {
                     custom                    
                 >
                     <option>-</option>
+                    <option>Daily</option>
                     <option>Weekly</option>
                     <option>Monthly</option>
                     <option>Rarely</option>
